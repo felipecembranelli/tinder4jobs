@@ -24,6 +24,8 @@ namespace TinderApp.Library
 
         private readonly FacebookSessionInfo _fbSessionInfo;
 
+        private readonly LinkedInSessionInfo _lkSessionInfo;
+
         private readonly GeographicalCordinates _location;
 
         private Profile _currentProfile;
@@ -46,6 +48,12 @@ namespace TinderApp.Library
         {
             _fbSessionInfo = fbSession;
             _location = location;
+        }
+
+        private TinderSession(LinkedInSessionInfo lkSession)
+        {
+            _lkSessionInfo = lkSession;
+  
         }
 
         public static TinderSession CurrentSession
@@ -75,6 +83,11 @@ namespace TinderApp.Library
         public FacebookSessionInfo FbSessionInfo
         {
             get { return _fbSessionInfo; }
+        }
+
+        public LinkedInSessionInfo LkSessionInfo
+        {
+            get { return _lkSessionInfo; }
         }
 
         public Globals GlobalInfo
@@ -113,6 +126,15 @@ namespace TinderApp.Library
 
             return _currentSession;
         }
+
+        public static TinderSession CreateNewSession(LinkedInSessionInfo lkSession)
+        {
+            _currentSession = new TinderSession(lkSession);
+
+            return _currentSession;
+        }
+
+
 
         public async Task<Boolean> Authenticate()
         {
