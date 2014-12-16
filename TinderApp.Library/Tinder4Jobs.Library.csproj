@@ -88,6 +88,8 @@
     <Compile Include="Facebook\PhotosResponse.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="LikeResponse.cs" />
+    <Compile Include="Linkedin\LinkedInJob.cs" />
+    <Compile Include="Linkedin\LinkedInUser.cs" />
     <Compile Include="Linkedin\LinkedInSessionInfo.cs" />
     <Compile Include="Linkedin\OAuthUtil.cs" />
     <Compile Include="Location.cs" />

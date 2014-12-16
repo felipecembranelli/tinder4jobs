@@ -10,6 +10,10 @@ using TinderApp.Library.ViewModels;
 using TinderApp.Lib.API;
 using System.Net.Http;
 using TinderApp.Library.Controls;
+using OAuthLinkedIn;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using TinderApp.Library.Facebook;
 
 namespace TinderApp.Library
 {
@@ -135,119 +139,204 @@ namespace TinderApp.Library
         }
 
 
-
-        public async Task<Boolean> Authenticate()
+        public async Task<Boolean> Authenticate(string _consumerKey,
+                                                string _accessToken,
+                                                string _oAuthVerifier,
+                                                string _consumerSecretKey,
+                                                string _accessTokenSecretKey)
         {
-            //AuthRequest request = new AuthRequest();
-            //request.facebook_token = FbSessionInfo.FacebookToken;
-            //request.facebook_id = FbSessionInfo.FacebookID;
-            //AuthResponse response = await request.Send();
-            //if (response.token.Length > 0)
-            //{
-            //    _currentUser = response.user;
-            //    _globalInfo = response.globals;
-            //    _currentProfile = await Profile.GetProfile();
-
-            //    await PingWithLocation();
-            //    await GetUpdate();
-            //    await GetRecommendations();
-
-            //    StartUpdatesTimer();
-
-            //    (Application.Current as TinderApp.Library.Controls.IApp).RootFrameInstance.LoggedIn();
-
-            //    return true;
-            //}
-
-            //return false;
-
-
-            //////////////////////////////////////////////
-            // MOCKUP RETURN
-            //////////////////////////////////////////////
-
-
-            // profile
-
-            Photo photo = new Photo();
-            photo.Id = "1";
-            photo.Url = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/c25.0.150.150/1964880_10202962758367430_1563262680_n.jpg?oh=90bc225f00ebf8e02476d16c5a3dac63&oe=54F9869C&__gda__=1425964246_a53df85d8f79bef180101254cabeef57";
+            // Get recommended jobs
             
-            _currentUser = new User() { FullName = "Felipe Cembranelli", Id = "1", Gender = 1 };
-            //_globalInfo = response.globals;
-            _currentProfile = new Profile() { name = "Felipe Cembranelli", ID = "1", interested_in = new List<int>() { { 0 }, { 1 } } };
-            Photo photo2 = new Photo();
-            photo2.Url = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/c25.0.150.150/1964880_10202962758367430_1563262680_n.jpg?oh=90bc225f00ebf8e02476d16c5a3dac63&oe=54F9869C&__gda__=1425964246_a53df85d8f79bef180101254cabeef57";
-            List<Photo> photoList = new List<Photo>();
-            photoList.Add(photo2);
+            string _requestJobsUrl = "http://api.linkedin.com/v1/people/~/suggestions/job-suggestions";
+            string _linkedInJobSuggestions = "";
 
-            _currentProfile.photos = photoList;
+            OAuthUtil oAuthUtil = new OAuthUtil();
 
+            string nonce = oAuthUtil.GetNonce();
+            string timeStamp = oAuthUtil.GetTimeStamp();
 
-
-            // matches
-
-            Match[] matches = new Match[1];
-
-            matches[0] = new Match();
-            matches[0].Id = "1";
-            matches[0] = new Match();
-            Person p1 = new Person() { Id = "100", Name = "Fulano" };
-            p1.Photos = new Photo[1] {photo};
-            matches[0].Person = p1;
-            Msg msg = new Msg() { Id = "1", Message = "teste" };
-            matches[0].Messages = new Msg[1] {msg};
-
-
-            _matches.Update(matches);
-
-            // recomendations
-
-            UserResult userResult1 = new UserResult()
+            try
             {
-                Id = "200",
-                Name = "rec1",
-                BirthDate = "10/01/1973",
-                PingTime = "10/01/1973",
-                Bio = "JSAFKADSJFKLDASJFLKDSJAFKSJDFKJDSAFDSKLFJDSKLA"
-            };
-            userResult1.Photos = new Photo[1] { photo };
 
-            UserResult userResult2 = new UserResult()
+                System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
+                httpClient.MaxResponseContentBufferSize = int.MaxValue;
+                httpClient.DefaultRequestHeaders.ExpectContinue = false;
+                System.Net.Http.HttpRequestMessage requestMsg = new System.Net.Http.HttpRequestMessage();
+                requestMsg.Method = new System.Net.Http.HttpMethod("GET");
+                requestMsg.RequestUri = new Uri(_requestJobsUrl, UriKind.Absolute);
+                requestMsg.Headers.Add("x-li-format", "json");
+
+
+                string sigBaseStringParams = "oauth_consumer_key=" + _consumerKey;
+                sigBaseStringParams += "&" + "oauth_nonce=" + nonce;
+                sigBaseStringParams += "&" + "oauth_signature_method=" + "HMAC-SHA1";
+                sigBaseStringParams += "&" + "oauth_timestamp=" + timeStamp;
+                sigBaseStringParams += "&" + "oauth_token=" + _accessToken;
+                sigBaseStringParams += "&" + "oauth_verifier=" + _oAuthVerifier;
+                sigBaseStringParams += "&" + "oauth_version=1.0";
+                string sigBaseString = "GET&";
+                sigBaseString += Uri.EscapeDataString(_requestJobsUrl) + "&" + Uri.EscapeDataString(sigBaseStringParams);
+
+                // LinkedIn requires both consumer secret and request token secret
+                string signature = oAuthUtil.GetSignature(sigBaseString, _consumerSecretKey, _accessTokenSecretKey);
+
+                string data = "realm=\"http://api.linkedin.com/\", oauth_consumer_key=\"" + _consumerKey
+                              +
+                              "\", oauth_token=\"" + _accessToken +
+                              "\", oauth_verifier=\"" + _oAuthVerifier +
+                              "\", oauth_nonce=\"" + nonce +
+                              "\", oauth_signature_method=\"HMAC-SHA1\", oauth_timestamp=\"" + timeStamp +
+                              "\", oauth_version=\"1.0\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\"";
+
+                requestMsg.Headers.Authorization = new AuthenticationHeaderValue("OAuth", data);
+                var response = await httpClient.SendAsync(requestMsg);
+
+                var text = response.Content.ReadAsStringAsync();
+
+                _linkedInJobSuggestions = await text;
+
+
+
+                // PAREI AQUI : DESIREALIZAR O PROFILE DO USUARIO
+
+
+                //<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                //<person>
+                //  <first-name>Felipe</first-name>
+                //  <last-name>Cembranelli</last-name>
+                //  <headline>Manager at CI&amp;T</headline>
+                //  <site-standard-profile-request>
+                //    <url>https://www.linkedin.com/profile/view?id=3770090&amp;authType=name&amp;authToken=moVF&amp;trk=api*a3576543*s3647743*</url>
+                //  </site-standard-profile-request>
+                //</person>
+
+
+                var linkedinJobList = JsonConvert.DeserializeObject<LinkedinJobList>(_linkedInJobSuggestions);
+
+                // FIM
+
+            }
+            catch (Exception Err)
             {
-                Id = "300",
-                Name = "rec2",
-                BirthDate = "10/01/1973",
-                PingTime = "10/01/1973",
-                Bio = "JSAFKADSJFKLDASJFLKDSJAFKSJDFKJDSAFDSKLFJDSKLA"
-            };
-            userResult2.Photos = new Photo[1] { photo };
-
-            UserResult userResult3 = new UserResult()
-            {
-                Id = "400",
-                Name = "rec3",
-                BirthDate = "10/01/1973",
-                PingTime = "10/01/1973",
-                Bio = "JSAFKADSJFKLDASJFLKDSJAFKSJDFKJDSAFDSKLFJDSKLA"
-            };
-            userResult3.Photos = new Photo[1] { photo };
-
-            Recommendations.Push(userResult1);
-            Recommendations.Push(userResult2);
-            Recommendations.Push(userResult3);
-
-            //await GetRecommendations();
-
-            //StartUpdatesTimer();
-
-            (Application.Current as TinderApp.Library.Controls.IApp).RootFrameInstance.LoggedIn();
-
-            // forcei
-            Client.AuthToken = FbSessionInfo.FacebookToken;
+                throw;
+            }
 
             return true;
         }
+
+
+        //public async Task<Boolean> Authenticate()
+        //{
+        //    //AuthRequest request = new AuthRequest();
+        //    //request.facebook_token = FbSessionInfo.FacebookToken;
+        //    //request.facebook_id = FbSessionInfo.FacebookID;
+        //    //AuthResponse response = await request.Send();
+        //    //if (response.token.Length > 0)
+        //    //{
+        //    //    _currentUser = response.user;
+        //    //    _globalInfo = response.globals;
+        //    //    _currentProfile = await Profile.GetProfile();
+
+        //    //    await PingWithLocation();
+        //    //    await GetUpdate();
+        //    //    await GetRecommendations();
+
+        //    //    StartUpdatesTimer();
+
+        //    //    (Application.Current as TinderApp.Library.Controls.IApp).RootFrameInstance.LoggedIn();
+
+        //    //    return true;
+        //    //}
+
+        //    //return false;
+
+
+        //    //////////////////////////////////////////////
+        //    // MOCKUP RETURN
+        //    //////////////////////////////////////////////
+
+
+        //    // profile
+
+        //    Photo photo = new Photo();
+        //    photo.Id = "1";
+        //    photo.Url = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/c25.0.150.150/1964880_10202962758367430_1563262680_n.jpg?oh=90bc225f00ebf8e02476d16c5a3dac63&oe=54F9869C&__gda__=1425964246_a53df85d8f79bef180101254cabeef57";
+            
+        //    _currentUser = new User() { FullName = "Felipe Cembranelli", Id = "1", Gender = 1 };
+        //    //_globalInfo = response.globals;
+        //    _currentProfile = new Profile() { name = "Felipe Cembranelli", ID = "1", interested_in = new List<int>() { { 0 }, { 1 } } };
+        //    Photo photo2 = new Photo();
+        //    photo2.Url = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/c25.0.150.150/1964880_10202962758367430_1563262680_n.jpg?oh=90bc225f00ebf8e02476d16c5a3dac63&oe=54F9869C&__gda__=1425964246_a53df85d8f79bef180101254cabeef57";
+        //    List<Photo> photoList = new List<Photo>();
+        //    photoList.Add(photo2);
+
+        //    _currentProfile.photos = photoList;
+
+
+
+        //    // matches
+
+        //    Match[] matches = new Match[1];
+
+        //    matches[0] = new Match();
+        //    matches[0].Id = "1";
+        //    matches[0] = new Match();
+        //    Person p1 = new Person() { Id = "100", Name = "Fulano" };
+        //    p1.Photos = new Photo[1] {photo};
+        //    matches[0].Person = p1;
+        //    Msg msg = new Msg() { Id = "1", Message = "teste" };
+        //    matches[0].Messages = new Msg[1] {msg};
+
+
+        //    _matches.Update(matches);
+
+        //    // recomendations
+
+        //    UserResult userResult1 = new UserResult()
+        //    {
+        //        Id = "200",
+        //        Name = "rec1",
+        //        BirthDate = "10/01/1973",
+        //        PingTime = "10/01/1973",
+        //        Bio = "JSAFKADSJFKLDASJFLKDSJAFKSJDFKJDSAFDSKLFJDSKLA"
+        //    };
+        //    userResult1.Photos = new Photo[1] { photo };
+
+        //    UserResult userResult2 = new UserResult()
+        //    {
+        //        Id = "300",
+        //        Name = "rec2",
+        //        BirthDate = "10/01/1973",
+        //        PingTime = "10/01/1973",
+        //        Bio = "JSAFKADSJFKLDASJFLKDSJAFKSJDFKJDSAFDSKLFJDSKLA"
+        //    };
+        //    userResult2.Photos = new Photo[1] { photo };
+
+        //    UserResult userResult3 = new UserResult()
+        //    {
+        //        Id = "400",
+        //        Name = "rec3",
+        //        BirthDate = "10/01/1973",
+        //        PingTime = "10/01/1973",
+        //        Bio = "JSAFKADSJFKLDASJFLKDSJAFKSJDFKJDSAFDSKLFJDSKLA"
+        //    };
+        //    userResult3.Photos = new Photo[1] { photo };
+
+        //    Recommendations.Push(userResult1);
+        //    Recommendations.Push(userResult2);
+        //    Recommendations.Push(userResult3);
+
+        //    //await GetRecommendations();
+
+        //    //StartUpdatesTimer();
+
+        //    (Application.Current as TinderApp.Library.Controls.IApp).RootFrameInstance.LoggedIn();
+
+        //    // forcei
+        //    Client.AuthToken = FbSessionInfo.FacebookToken;
+
+        //    return true;
+        //}
 
         private void StartUpdatesTimer()
         {
