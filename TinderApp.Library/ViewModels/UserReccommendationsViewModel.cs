@@ -19,24 +19,29 @@ namespace TinderApp.Views
 
         private UserResult _currentRec;
 
+        private TinderApp.Library.Linkedin.LinkedinJob _currentJob;
+
         public UserReccommendationsViewModel()
         {
             _likeUserCommand = new RelayCommand(LikeUser);
             _rejectUserCommand = new RelayCommand(RejectUser);
 
-            if (TinderSession.CurrentSession != null && TinderSession.CurrentSession.IsAuthenticated && TinderSession.CurrentSession.Recommendations.Count > 0)
-            {
-                _currentRec = TinderSession.CurrentSession.Recommendations.Pop();
+            //&& TinderSession.CurrentSession.IsAuthenticated 
 
-                RaisePropertyChanged("PhotoCount");
+            if (TinderSession.CurrentSession != null 
+                && TinderSession.CurrentSession.JobRecommendations.Count > 0)
+            {
+                _currentJob = TinderSession.CurrentSession.JobRecommendations.Pop();
+
+                //RaisePropertyChanged("PhotoCount");
                 RaisePropertyChanged("Name");
-                RaisePropertyChanged("Age");
-                RaisePropertyChanged("FriendCount");
-                RaisePropertyChanged("LikeCount");
-                RaisePropertyChanged("LikesBrush");
-                RaisePropertyChanged("FriendsBrush");
-                RaisePropertyChanged("PhotosBrush");
-                RaisePropertyChanged("ProfilePhoto");
+                //RaisePropertyChanged("Age");
+                //RaisePropertyChanged("FriendCount");
+                //RaisePropertyChanged("LikeCount");
+                //RaisePropertyChanged("LikesBrush");
+                //RaisePropertyChanged("FriendsBrush");
+                //RaisePropertyChanged("PhotosBrush");
+                //RaisePropertyChanged("ProfilePhoto");
                 RaisePropertyChanged("CurrentReccomendation");
             }
         }
@@ -111,9 +116,9 @@ namespace TinderApp.Views
         {
             get
             {
-                if (_currentRec == null)
-                    return "No Nearby People";
-                return _currentRec.Name;
+                if (_currentJob == null)
+                    return "No job found";
+                return _currentJob.Company.Name;
             }
         }
 

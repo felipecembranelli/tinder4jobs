@@ -14,6 +14,7 @@ using OAuthLinkedIn;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using TinderApp.Library.Facebook;
+using TinderApp.Library.Linkedin;
 
 namespace TinderApp.Library
 {
@@ -45,6 +46,8 @@ namespace TinderApp.Library
         private MatchesViewModel _matches = new MatchesViewModel();
 
         private Stack<UserResult> _recommendations = new Stack<UserResult>();
+
+        private Stack<LinkedinJob> _jobRecommendations = new Stack<LinkedinJob>();
 
         private DispatcherTimer _updateTimer;
 
@@ -122,6 +125,11 @@ namespace TinderApp.Library
         public Stack<UserResult> Recommendations
         {
             get { return _recommendations; }
+        }
+
+        public Stack<LinkedinJob> JobRecommendations
+        {
+            get { return _jobRecommendations; }
         }
 
         public static TinderSession CreateNewSession(FacebookSessionInfo fbSession, GeographicalCordinates location)
@@ -211,9 +219,12 @@ namespace TinderApp.Library
                 //</person>
 
 
-                var linkedinJobList = JsonConvert.DeserializeObject<LinkedinJobList>(_linkedInJobSuggestions);
-
-                // FIM
+                LinkedinJobList linkedinJobList = JsonConvert.DeserializeObject<LinkedinJobList>(_linkedInJobSuggestions);
+                
+                foreach (var item in linkedinJobList.Jobs.Values)
+                {
+                    JobRecommendations.Push(item);
+                }
 
             }
             catch (Exception Err)
@@ -239,7 +250,7 @@ namespace TinderApp.Library
 
         //    //    await PingWithLocation();
         //    //    await GetUpdate();
-        //    //    await GetRecommendations();
+                //await GetRecommendations();
 
         //    //    StartUpdatesTimer();
 

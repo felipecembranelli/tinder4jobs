@@ -14,6 +14,7 @@ using OAuthLinkedIn;
 using System.Text;
 using Windows.Web.Http;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace TinderApp
 {
@@ -111,6 +112,7 @@ namespace TinderApp
 
             // INICIO
             string _requestPeopleUrl = "http://api.linkedin.com/v1/people/~";
+            //string _requestPeopleUrl = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,headline)";
             
             string nonce = oAuthUtil.GetNonce();
             string timeStamp = oAuthUtil.GetTimeStamp();
@@ -161,7 +163,19 @@ namespace TinderApp
                 throw;
             }
 
-            // PAREI AQUI : DESIREALIZAR O PROFILE DO USUARIO
+            //<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+            //<person>
+            //  <first-name>Felipe</first-name>
+            //  <last-name>Cembranelli</last-name>
+            //  <headline>Manager at CI&amp;T</headline>
+            //  <site-standard-profile-request>
+            //    <url>https://www.linkedin.com/profile/view?id=3770090&amp;authType=name&amp;authToken=moVF&amp;trk=api*a3576543*s3647743*</url>
+            //  </site-standard-profile-request>
+            //</person>
+
+
+            var linkedinUser = JsonConvert.DeserializeObject<LinkedinUser>(_linkedInProfile);
+
 
             // FIM
 
@@ -169,7 +183,7 @@ namespace TinderApp
 
             LinkedInSessionInfo sessionInfo = new LinkedInSessionInfo();
             sessionInfo.AcessToken = accessToken;
-            sessionInfo.LinkedInID = _linkedInProfile;
+            sessionInfo.LinkedInID = linkedinUser.FirstName;
 
             //Geolocator location = new Geolocator();
             //location.DesiredAccuracy = PositionAccuracy.Default;
@@ -179,7 +193,8 @@ namespace TinderApp
 
             TinderSession activeSession = TinderSession.CreateNewSession(sessionInfo);
 
-            if (await activeSession.Authenticate())
+
+            if (await activeSession.Authenticate(_consumerKey,_accessToken,_oAuthVerifier, _consumerSecretKey, _accessTokenSecretKey))
             {
                 (App.Current as App).RightSideBar.DataContext = activeSession.Matches;
 
