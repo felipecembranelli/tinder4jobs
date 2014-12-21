@@ -34,23 +34,23 @@ namespace TinderApp
 
             DataContext = TinderSession.CurrentSession.CurrentProfile;
 
-            if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 1)
-                this.image1.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[0].Url, UriKind.Absolute));
+            //if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 1)
+            //    this.image1.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[0].Url, UriKind.Absolute));
 
-            if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 2)
-                this.image2.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[1].Url, UriKind.Absolute));
+            //if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 2)
+            //    this.image2.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[1].Url, UriKind.Absolute));
 
-            if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 3)
-                this.image3.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[2].Url, UriKind.Absolute));
+            //if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 3)
+            //    this.image3.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[2].Url, UriKind.Absolute));
 
-            if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 4)
-                this.image4.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[3].Url, UriKind.Absolute));
+            //if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 4)
+            //    this.image4.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[3].Url, UriKind.Absolute));
 
-            if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 5)
-                this.image5.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[4].Url, UriKind.Absolute));
+            //if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 5)
+            //    this.image5.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[4].Url, UriKind.Absolute));
 
-            if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 6)
-                this.image6.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[5].Url, UriKind.Absolute));
+            //if (TinderSession.CurrentSession.CurrentProfile.photos.Count >= 6)
+            //    this.image6.Source = new BitmapImage(new Uri(TinderSession.CurrentSession.CurrentProfile.photos[5].Url, UriKind.Absolute));
         }
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)

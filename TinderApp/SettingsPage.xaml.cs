@@ -50,11 +50,11 @@ namespace TinderApp
 
             DataContext = TinderSession.CurrentSession.CurrentProfile;
 
-            if (TinderSession.CurrentSession.CurrentProfile.interested_in.Contains(0))
-                this.showMenCheckbox.IsChecked = true;
+            //if (TinderSession.CurrentSession.CurrentProfile.interested_in.Contains(0))
+            //    this.showMenCheckbox.IsChecked = true;
 
-            if (TinderSession.CurrentSession.CurrentProfile.interested_in.Contains(1))
-                this.showWomenCheckBox.IsChecked = true;
+            //if (TinderSession.CurrentSession.CurrentProfile.interested_in.Contains(1))
+            //    this.showWomenCheckBox.IsChecked = true;
         }
     }
 }

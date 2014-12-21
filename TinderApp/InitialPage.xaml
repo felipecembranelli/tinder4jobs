@@ -339,9 +339,9 @@
 
     <!--  LayoutRoot is the root grid where all page content is placed  -->
     <Grid x:Name="LayoutRoot">
-        <Grid.Background>
+        <!--<Grid.Background>
             <ImageBrush ImageSource="/Assets/Images/Background.png" Stretch="UniformToFill" />
-        </Grid.Background>
+        </Grid.Background>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -387,7 +387,7 @@
                        FontSize="{StaticResource PhoneFontSizeMediumLarge}"
                        Foreground="#DEFFFFFF"
                        Style="{StaticResource JumpListStringStyle}"
-                       Text="Finding people nearby..."
+                       Text="Finding jobs..."
                        TextOptions.TextHintingMode="Animated"
                        TextWrapping="Wrap" />
         </Grid>

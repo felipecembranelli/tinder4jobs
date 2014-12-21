@@ -12,14 +12,14 @@ namespace TinderApp
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private UserReccommendationsViewModel _viewModel;
+        private JobReccommendationsViewModel _viewModel;
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
 
-            _viewModel = new UserReccommendationsViewModel();
+            _viewModel = new JobReccommendationsViewModel();
             DataContext = _viewModel;
         }
 
@@ -40,7 +40,7 @@ namespace TinderApp
             base.OnNavigatedTo(e);
         }
 
-        private void _viewModel_OnAnimation(object sender, UserReccommendationsViewModel.AnimationEventArgs e)
+        private void _viewModel_OnAnimation(object sender, JobReccommendationsViewModel.AnimationEventArgs e)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
@@ -65,7 +65,7 @@ namespace TinderApp
 
         private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            ProfileInfoPage.Data = _viewModel.CurrentReccomendation;
+            ProfileInfoPage.Data = _viewModel.CurrentJobReccomendation;
 
             NavigationService.Navigate(new Uri("/ProfileInfoPage.xaml?id=data", UriKind.Relative));
         }
@@ -73,16 +73,16 @@ namespace TinderApp
         private void keepPlayingButton_Click(object sender, RoutedEventArgs e)
         {
             matchBorder.Visibility = System.Windows.Visibility.Collapsed;
-            _viewModel.NextRecommendation();
+            _viewModel.NextJobSuggestion();
         }
 
         private void sendMessageBtn_Click(object sender, RoutedEventArgs e)
         {
             matchBorder.Visibility = System.Windows.Visibility.Collapsed;
 
-            string currentId = _viewModel.CurrentReccomendation.Id;
+            string currentId = _viewModel.CurrentJobReccomendation.Id;
 
-            _viewModel.NextRecommendation();
+            _viewModel.NextJobSuggestion();
             NavigationService.Navigate(new Uri("/ViewConversationPage.xaml?id=" + currentId, UriKind.Relative));
         }
 

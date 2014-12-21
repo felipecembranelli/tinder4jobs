@@ -252,86 +252,95 @@ namespace TinderApp
 
         private async void webBrowser_Navigating(object sender, NavigatingEventArgs e)
         {
-            if (e.Uri.ToString().StartsWith("https://www.linkedin.com/sucess.htm"))
-            {
-                e.Cancel = true;
+            // mockado
+            await Authenticate("453253", _requestToken);
 
-                WebViewBorder.Visibility = System.Windows.Visibility.Collapsed;
-                LoginButtonBorder.Visibility = System.Windows.Visibility.Collapsed;
-                LoggedInPanel.Visibility = System.Windows.Visibility.Visible;
+            
+            
+        }
 
-                if (Pulsate.GetCurrentState() != ClockState.Active)
-                {
-                    Pulsate.RepeatBehavior = RepeatBehavior.Forever;
-                    Pulsate.Begin();
-                }
+        //private async void webBrowser_Navigating(object sender, NavigatingEventArgs e)
+        //{
+        //    if (e.Uri.ToString().StartsWith("https://www.linkedin.com/sucess.htm"))
+        //    {
+        //        e.Cancel = true;
 
-                //FacebookUser user = null;
-                //string accessToken = "";
+        //        WebViewBorder.Visibility = System.Windows.Visibility.Collapsed;
+        //        LoginButtonBorder.Visibility = System.Windows.Visibility.Collapsed;
+        //        LoggedInPanel.Visibility = System.Windows.Visibility.Visible;
 
-                try
-                {
+        //        if (Pulsate.GetCurrentState() != ClockState.Active)
+        //        {
+        //            Pulsate.RepeatBehavior = RepeatBehavior.Forever;
+        //            Pulsate.Begin();
+        //        }
 
-                    //accessToken = e.Uri.ToString().Substring(e.Uri.ToString().IndexOf("access_token=") + "access_token=".Length);
-                    //accessToken = _accessToken;
+        //        //FacebookUser user = null;
+        //        //string accessToken = "";
 
-                      string queryParams = e.Uri.Query;
+        //        try
+        //        {
 
-                      if (queryParams.Length > 0)
-                      {
-                          QueryString qs = new QueryString(queryParams);
+        //            //accessToken = e.Uri.ToString().Substring(e.Uri.ToString().IndexOf("access_token=") + "access_token=".Length);
+        //            //accessToken = _accessToken;
 
-                          if (qs["oauth_verifier"] != null)
-                          {
-                              this._oAuthVerifier = qs["oauth_verifier"];
-                          }
-                      }
+        //              string queryParams = e.Uri.Query;
 
+        //              if (queryParams.Length > 0)
+        //              {
+        //                  QueryString qs = new QueryString(queryParams);
 
-                    //if (accessToken.IndexOf("&") > 0)
-                    //    accessToken = accessToken.Substring(0, accessToken.IndexOf("&"));
-
-                    //user = await FacebookUserResponse.GetFacebookUser(accessToken);
-                    await this.GetAccessToken();
-
-                }
-                catch { }
+        //                  if (qs["oauth_verifier"] != null)
+        //                  {
+        //                      this._oAuthVerifier = qs["oauth_verifier"];
+        //                  }
+        //              }
 
 
-                if (_oAuthVerifier == "")
-                {
-                    if (Pulsate.GetCurrentState() == ClockState.Active)
-                    {
-                        Pulsate.Stop();
-                    }
-                    await webBrowser.ClearCookiesAsync();
-                    WebViewBorder.Visibility = System.Windows.Visibility.Collapsed;
-                    LoginButtonBorder.Visibility = System.Windows.Visibility.Visible;
-                    LoggedInPanel.Visibility = System.Windows.Visibility.Collapsed;
-                    MessageBox.Show("Unable to login using Linkedin.  Please try again.");
-                }
+        //            //if (accessToken.IndexOf("&") > 0)
+        //            //    accessToken = accessToken.Substring(0, accessToken.IndexOf("&"));
 
-                //if (user == null)
-                //{
-                //    if (Pulsate.GetCurrentState() == ClockState.Active)
-                //    {
-                //        Pulsate.Stop();
-                //    }
-                //    await webBrowser.ClearCookiesAsync();
-                //    WebViewBorder.Visibility = System.Windows.Visibility.Collapsed;
-                //    LoginButtonBorder.Visibility = System.Windows.Visibility.Visible;
-                //    LoggedInPanel.Visibility = System.Windows.Visibility.Collapsed;
-                //    MessageBox.Show("Unable to login using Facebook.  Please try again.");
-                //}
-                else 
-                { 
+        //            //user = await FacebookUserResponse.GetFacebookUser(accessToken);
+        //            await this.GetAccessToken();
+
+        //        }
+        //        catch { }
+
+
+        //        if (_oAuthVerifier == "")
+        //        {
+        //            if (Pulsate.GetCurrentState() == ClockState.Active)
+        //            {
+        //                Pulsate.Stop();
+        //            }
+        //            await webBrowser.ClearCookiesAsync();
+        //            WebViewBorder.Visibility = System.Windows.Visibility.Collapsed;
+        //            LoginButtonBorder.Visibility = System.Windows.Visibility.Visible;
+        //            LoggedInPanel.Visibility = System.Windows.Visibility.Collapsed;
+        //            MessageBox.Show("Unable to login using Linkedin.  Please try again.");
+        //        }
+
+        //        //if (user == null)
+        //        //{
+        //        //    if (Pulsate.GetCurrentState() == ClockState.Active)
+        //        //    {
+        //        //        Pulsate.Stop();
+        //        //    }
+        //        //    await webBrowser.ClearCookiesAsync();
+        //        //    WebViewBorder.Visibility = System.Windows.Visibility.Collapsed;
+        //        //    LoginButtonBorder.Visibility = System.Windows.Visibility.Visible;
+        //        //    LoggedInPanel.Visibility = System.Windows.Visibility.Collapsed;
+        //        //    MessageBox.Show("Unable to login using Facebook.  Please try again.");
+        //        //}
+        //        else 
+        //        { 
                   
 
-                    await Authenticate(_accessToken, _requestToken);
+        //            await Authenticate(_accessToken, _requestToken);
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {

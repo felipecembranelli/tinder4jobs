@@ -3,24 +3,27 @@ using System;
 using System.Windows.Navigation;
 using TinderApp.Lib;
 using TinderApp.Library.ViewModels;
+using TinderApp.Library.Linkedin;
 
 namespace TinderApp
 {
     public partial class ProfileInfoPage : PhoneApplicationPage
     {
-        private static UserResult _data;
+        private static LinkedinJob _data;
 
-        private UserInfoViewModel _vm;
+        private JobInfoViewModel _vm;
 
         public ProfileInfoPage()
         {
             InitializeComponent();
         }
 
-        public static UserResult Data
-        {
-            get { return ProfileInfoPage._data; }
-            set { ProfileInfoPage._data = value; }
+        public static LinkedinJob Data 
+        { 
+            get {
+                return ProfileInfoPage._data;
+            }
+            set { ProfileInfoPage._data = value; } 
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -36,9 +39,9 @@ namespace TinderApp
 
             string id = NavigationContext.QueryString["id"].Replace("-", "");
             if (id == "data" && _data != null)
-                _vm = new UserInfoViewModel(Data);
+                _vm = new JobInfoViewModel(Data);
             else
-                _vm = await UserInfoViewModel.LoadUserInfo(id);
+                _vm = await JobInfoViewModel.LoadUserInfo(id);
             DataContext = _vm;
         }
     }

@@ -260,13 +260,30 @@
             </Border.RenderTransform>
             <StackPanel Orientation="Vertical">
                 <Grid Height="460">
-                    <Image Width="460"
+                    <!--<Image Width="460"
                            Height="460"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            Source="{Binding ProfilePhoto,
                                             Mode=OneWay}"
-                           Stretch="UniformToFill" />
+                           Stretch="UniformToFill" />-->
+
+                    <TextBlock Margin="0"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Foreground="#FF616161"
+                                   TextWrapping="Wrap"
+                                   Style="{StaticResource PhoneTextAccentStyle}"
+                                   Text="{Binding DescriptionSnippet,
+                                                  Mode=OneWay}"/>
+                    <!--<TextBlock Margin="0"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Foreground="#FF616161"
+                                   TextWrapping="Wrap"
+                                   Style="{StaticResource PhoneTextAccentStyle}"
+                                   Text="{Binding DescriptionSnippet,
+                                                  Mode=OneWay}"/>-->
                     <Image x:Name="image"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
@@ -295,6 +312,21 @@
                                    VerticalAlignment="Bottom"
                                    Foreground="#FF616161"
                                    Style="{StaticResource PhoneTextAccentStyle}"
+                                   Text="{Binding Id,
+                                                  Mode=OneWay}"
+                                     TextWrapping="Wrap" />
+                        <TextBlock Margin="0,0,0,-0.399"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Foreground="#FF616161"
+                                   Style="{StaticResource PhoneTextAccentStyle}"
+                                   Text=", "
+                                   TextWrapping="Wrap" />
+                        <TextBlock Margin="0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   Foreground="#FF616161"
+                                   Style="{StaticResource PhoneTextAccentStyle}"
                                    Text="{Binding Name,
                                                   Mode=OneWay}"
                                    TextWrapping="Wrap" />
@@ -310,11 +342,11 @@
                                    VerticalAlignment="Bottom"
                                    Foreground="#FF616161"
                                    Style="{StaticResource PhoneTextAccentStyle}"
-                                   Text="{Binding Age,
+                                   Text="{Binding LocationDescription,
                                                   Mode=OneWay}"
                                    TextWrapping="Wrap" />
                     </StackPanel>
-                    <StackPanel Grid.Column="1"
+                    <!--<StackPanel Grid.Column="1"
                                 Margin="0,0,12,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top">
@@ -331,7 +363,7 @@
                                    Text="{Binding FriendCount,
                                                   Mode=OneWay}"
                                    TextWrapping="Wrap" />
-                    </StackPanel>
+                    </StackPanel>-->
                     <StackPanel Grid.Column="2"
                                 Margin="0,0,12,0"
                                 HorizontalAlignment="Left"
@@ -347,11 +379,11 @@
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Foreground="{Binding LikesBrush}"
-                                   Text="{Binding LikeCount,
+                                   Text="{Binding JobCount,
                                                   Mode=OneWay}"
                                    TextWrapping="Wrap" />
                     </StackPanel>
-                    <StackPanel Grid.Column="3"
+                    <!--<StackPanel Grid.Column="3"
                                 Grid.ColumnSpan="2"
                                 Margin="0,0,12,0"
                                 HorizontalAlignment="Left"
@@ -369,7 +401,7 @@
                                    Text="{Binding PhotoCount,
                                                   Mode=OneWay}"
                                    TextWrapping="Wrap" />
-                    </StackPanel>
+                    </StackPanel>-->
                 </Grid>
             </StackPanel>
         </Border>
