@@ -9,7 +9,7 @@ namespace TinderApp
 {
     public partial class ProfileInfoPage : PhoneApplicationPage
     {
-        private static LinkedinJob _data;
+        private static LinkedinUser _data;
 
         private JobInfoViewModel _vm;
 
@@ -18,7 +18,7 @@ namespace TinderApp
             InitializeComponent();
         }
 
-        public static LinkedinJob Data 
+        public static LinkedinUser Data 
         { 
             get {
                 return ProfileInfoPage._data;
@@ -35,14 +35,14 @@ namespace TinderApp
 
         private async void ProfileInfoPage_LayoutUpdated(object sender, EventArgs e)
         {
-            this.LayoutUpdated -= ProfileInfoPage_LayoutUpdated;
+            //this.LayoutUpdated -= ProfileInfoPage_LayoutUpdated;
 
-            string id = NavigationContext.QueryString["id"].Replace("-", "");
-            if (id == "data" && _data != null)
-                _vm = new JobInfoViewModel(Data);
-            else
-                _vm = await JobInfoViewModel.LoadUserInfo(id);
-            DataContext = _vm;
+            //string id = NavigationContext.QueryString["id"].Replace("-", "");
+            //if (id == "data" && _data != null)
+            //    _vm = new JobInfoViewModel(Data);
+            //else
+            //    _vm = await JobInfoViewModel.LoadUserInfo(id);
+            //DataContext = _vm;
         }
     }
 }

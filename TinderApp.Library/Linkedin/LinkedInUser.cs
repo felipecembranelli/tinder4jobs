@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TinderApp.Library.Facebook
+namespace TinderApp.Library.Linkedin
 {
     public class LinkedinUser
     {

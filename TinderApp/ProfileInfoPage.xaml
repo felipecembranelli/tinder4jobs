@@ -48,6 +48,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <!--<telerikPrimitives:RadSlideView Height="400"
                                         Margin="0"
                                         VerticalAlignment="Top"
@@ -56,53 +57,92 @@
                                         IsLoopingEnabled="False"
                                         ItemTemplate="{StaticResource ImageSlideItemTemplate}"
                                         ItemsSource="{Binding Photos}" />-->
-        <ScrollViewer Grid.Row="1"
+
+        <ScrollViewer Grid.Row="0"
                       Margin="0">
-            <Grid Margin="12,0,12,24" VerticalAlignment="Top">
+            <Grid Margin="12,0,12,24" VerticalAlignment="Stretch" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-           
-                    <StackPanel Grid.Column="1" Grid.Row="1"
+                <StackPanel Grid.Row="0"
                             Margin="0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
-                        
-                  
-                    <TextBlock HorizontalAlignment="Left"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                                >
+
+                    <TextBlock TextWrapping="Wrap" 
+                               Text="Job Description" 
+                               Foreground="#FF959393" 
+                               VerticalAlignment="Top" 
+                               HorizontalAlignment="Left" 
+                               FontSize="17" 
+                               Margin="0,0,0,10" 
+                               FontWeight="Bold"/>
+                    <Border Background="White" BorderBrush="Gray" BorderThickness="2" Padding="10" CornerRadius="20">
+                        <TextBlock HorizontalAlignment="Stretch"
                            VerticalAlignment="Center"
-                           Foreground="#DE000000"
+                           Height="360"
                            Style="{StaticResource PhoneTextAccentStyle}"
                            Text="{Binding DescriptionSnippet,
                                           Mode=OneWay}"
-                           TextWrapping="Wrap" />
-                <TextBlock HorizontalAlignment="Left"
-                           VerticalAlignment="Center"
+                           TextWrapping="Wrap"  />
+                    </Border>
+                    <TextBlock TextWrapping="Wrap" 
+                               Text="Job Id" 
+                               Foreground="#FF959393" 
+                               VerticalAlignment="Top" 
+                               HorizontalAlignment="Left" 
+                               FontSize="17" 
+                               Margin="0,0,0,10" 
+                               FontWeight="Bold"/>
+                    <Border Background="White" Padding="10" BorderBrush="Gray" BorderThickness="2" CornerRadius="20">
+                        <TextBlock HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                                Height="26"
                            Foreground="#DE000000"
                            Style="{StaticResource PhoneTextAccentStyle}"
                            Text="{Binding JobId,
                                           Mode=OneWay}"
                            TextWrapping="Wrap" />
-           
-                    <TextBlock HorizontalAlignment="Right"
-                               FontFamily="{StaticResource PhoneFontFamilySemiBold}"
+                    </Border>
+                    <TextBlock TextWrapping="Wrap" 
+                               Text="Job Poster" 
+                               Foreground="#FF959393" 
+                               VerticalAlignment="Top" 
+                               HorizontalAlignment="Left" 
+                               FontSize="17" 
+                               Margin="0,0,0,10" 
+                               FontWeight="Bold"/>
+                    <Border Background="White" Padding="10" BorderBrush="Gray" BorderThickness="2" CornerRadius="20">
+                        <TextBlock HorizontalAlignment="Left"
                                Foreground="#DE000000"
                                Text="{Binding JobPosterName,
                                               Mode=OneWay}"
+                                Style="{StaticResource PhoneTextAccentStyle}" 
                                TextWrapping="Wrap" />
-                    <TextBlock HorizontalAlignment="Right"
+                    </Border>
+                    <TextBlock TextWrapping="Wrap" 
+                               Text="Location" 
+                               Foreground="#FF959393" 
+                               VerticalAlignment="Top" 
+                               HorizontalAlignment="Left" 
+                               FontSize="17" 
+                               Margin="0,0,0,10" 
+                               FontWeight="Bold"/>
+                    <Border Background="White" Padding="10" BorderBrush="Gray" BorderThickness="2"  CornerRadius="20">
+                        <TextBlock HorizontalAlignment="Left"
+                              Style="{StaticResource PhoneTextAccentStyle}" 
                                Foreground="#DE000000"
                                Text="{Binding LocationDescription,
                                               Mode=OneWay}"
                                TextWrapping="Wrap" />
+                    </Border>
                 </StackPanel>
-              
+
             </Grid>
         </ScrollViewer>
+
     </Grid>
+
 </phone:PhoneApplicationPage>

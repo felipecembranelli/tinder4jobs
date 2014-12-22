@@ -13,6 +13,7 @@ namespace TinderApp
     public partial class MainPage : PhoneApplicationPage
     {
         private JobReccommendationsViewModel _viewModel;
+        private TinderApp.Library.Linkedin.LinkedinUser _LoggedUser;
 
         // Constructor
         public MainPage()
@@ -65,7 +66,8 @@ namespace TinderApp
 
         private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            ProfileInfoPage.Data = _viewModel.CurrentJobReccomendation;
+            //ProfileInfoPage.Data = _viewModel.CurrentJobReccomendation;
+            ProfileInfoPage.Data = _LoggedUser;
 
             NavigationService.Navigate(new Uri("/ProfileInfoPage.xaml?id=data", UriKind.Relative));
         }

@@ -5,10 +5,11 @@ using TinderApp.Lib;
 using TinderApp.Lib.API;
 using TinderApp.Library;
 using TinderApp.Library.MVVM;
+using TinderApp.Library.Linkedin;
 
 namespace TinderApp.Views
 {
-    public class UserReccommendationsViewModel : ObservableObject
+    public class JobReccommendationsViewModel : ObservableObject
     {
         private static SolidColorBrush GRAY_BRUSH = new SolidColorBrush(Colors.LightGray);
         private static SolidColorBrush BLACK_BRUSH = new SolidColorBrush(Colors.Black);
@@ -19,9 +20,9 @@ namespace TinderApp.Views
 
         private UserResult _currentRec;
 
-        private TinderApp.Library.Linkedin.LinkedinJob _currentJob;
+        private LinkedinJob _currentJob;
 
-        public UserReccommendationsViewModel()
+        public JobReccommendationsViewModel()
         {
             _likeUserCommand = new RelayCommand(LikeUser);
             _rejectUserCommand = new RelayCommand(RejectUser);
@@ -33,22 +34,50 @@ namespace TinderApp.Views
             {
                 _currentJob = TinderSession.CurrentSession.JobRecommendations.Pop();
 
-                //RaisePropertyChanged("PhotoCount");
+                RaisePropertyChanged("Id");
                 RaisePropertyChanged("Name");
-                //RaisePropertyChanged("Age");
-                //RaisePropertyChanged("FriendCount");
+                RaisePropertyChanged("DescriptionSnippet");
+                RaisePropertyChanged("LocationDescription");
                 //RaisePropertyChanged("LikeCount");
                 //RaisePropertyChanged("LikesBrush");
                 //RaisePropertyChanged("FriendsBrush");
                 //RaisePropertyChanged("PhotosBrush");
                 //RaisePropertyChanged("ProfilePhoto");
-                RaisePropertyChanged("CurrentReccomendation");
+                RaisePropertyChanged("CurrentJobReccomendation");
+                RaisePropertyChanged("JobCount");
+
+                  //[JsonProperty("company")]
+                    //[JsonProperty("descriptionSnippet")]
+                    //[JsonProperty("id")]
+                    //[JsonProperty("jobPoster")]
+                    //[JsonProperty("locationDescription")]
+        
             }
         }
 
         public event EventHandler<AnimationEventArgs> OnAnimation;
 
         public event EventHandler OnMatch;
+
+        public String DescriptionSnippet
+        {
+            get
+            {
+                if (_currentJob == null)
+                    return "No description found";
+                return _currentJob.DescriptionSnippet;
+            }
+        }
+
+        public String LocationDescription
+        {
+            get
+            {
+                if (_currentJob == null)
+                    return "No location found";
+                return _currentJob.LocationDescription;
+            }
+        }
 
         public String Age
         {
@@ -60,18 +89,18 @@ namespace TinderApp.Views
             }
         }
 
-        public UserResult CurrentReccomendation
+        public LinkedinJob CurrentJobReccomendation
         {
-            get { return _currentRec; }
+            get { return _currentJob; }
         }
 
-        public Int32 FriendCount
+        public Int32 JobCount
         {
             get
             {
-                if (_currentRec == null)
+                if (TinderSession.CurrentSession.JobRecommendations.Count == null)
                     return 0;
-                return _currentRec.CommonFriendCount;
+                return TinderSession.CurrentSession.JobRecommendations.Count;
             }
         }
 
@@ -89,14 +118,14 @@ namespace TinderApp.Views
         {
             get
             {
-                return FriendCount > 0 ? BLACK_BRUSH : GRAY_BRUSH;
+                return JobCount > 0 ? BLACK_BRUSH : GRAY_BRUSH;
             }
         }
         public SolidColorBrush LikesBrush
         {
             get
             {
-                return LikeCount > 0 ? BLACK_BRUSH : GRAY_BRUSH;
+                return JobCount > 0 ? BLACK_BRUSH : GRAY_BRUSH;
             }
         }
         public SolidColorBrush PhotosBrush
@@ -119,6 +148,16 @@ namespace TinderApp.Views
                 if (_currentJob == null)
                     return "No job found";
                 return _currentJob.Company.Name;
+            }
+        }
+
+        public String Id
+        {
+            get
+            {
+                if (_currentJob == null)
+                    return "No job found";
+                return _currentJob.Id;
             }
         }
 
@@ -159,29 +198,51 @@ namespace TinderApp.Views
             //}
             //else
             //{
-                NextRecommendation();
+                NextJobSuggestion();
             //}
         }
 
-        public async void NextRecommendation()
-        {
-            if (TinderSession.CurrentSession.Recommendations.Count > 0)
-                _currentRec = TinderSession.CurrentSession.Recommendations.Pop();
-            else
-                _currentRec = null;
-            RaisePropertyChanged("PhotoCount");
-            RaisePropertyChanged("Name");
-            RaisePropertyChanged("Age");
-            RaisePropertyChanged("FriendCount");
-            RaisePropertyChanged("LikeCount");
-            RaisePropertyChanged("ProfilePhoto");
-            RaisePropertyChanged("CurrentReccomendation");
-            RaisePropertyChanged("LikesBrush");
-            RaisePropertyChanged("FriendsBrush");
-            RaisePropertyChanged("PhotosBrush");
+        //public async void NextRecommendation()
+        //{
+        //    if (TinderSession.CurrentSession.Recommendations.Count > 0)
+        //        _currentRec = TinderSession.CurrentSession.Recommendations.Pop();
+        //    else
+        //        _currentRec = null;
+        //    RaisePropertyChanged("PhotoCount");
+        //    RaisePropertyChanged("Name");
+        //    RaisePropertyChanged("Age");
+        //    RaisePropertyChanged("FriendCount");
+        //    RaisePropertyChanged("LikeCount");
+        //    RaisePropertyChanged("ProfilePhoto");
+        //    RaisePropertyChanged("CurrentReccomendation");
+        //    RaisePropertyChanged("LikesBrush");
+        //    RaisePropertyChanged("FriendsBrush");
+        //    RaisePropertyChanged("PhotosBrush");
 
-            if (TinderSession.CurrentSession.Recommendations.Count == 0)
-                await TinderSession.CurrentSession.GetRecommendations();
+        //    if (TinderSession.CurrentSession.Recommendations.Count == 0)
+        //        await TinderSession.CurrentSession.GetRecommendations();
+        //}
+
+        public async void NextJobSuggestion()
+        {
+            if (TinderSession.CurrentSession.JobRecommendations.Count > 0)
+                _currentJob = TinderSession.CurrentSession.JobRecommendations.Pop();
+            else
+                _currentJob = null;
+
+            RaisePropertyChanged("Id");
+            RaisePropertyChanged("Name");
+            RaisePropertyChanged("DescriptionSnippet");
+            RaisePropertyChanged("LocationDescription");
+            //RaisePropertyChanged("LikeCount");
+            //RaisePropertyChanged("ProfilePhoto");
+            RaisePropertyChanged("CurrentJobReccomendation");
+            //RaisePropertyChanged("LikesBrush");
+            //RaisePropertyChanged("FriendsBrush");
+            //RaisePropertyChanged("PhotosBrush");
+
+            //if (TinderSession.CurrentSession.Recommendations.Count == 0)
+            //    await TinderSession.CurrentSession.GetRecommendations();
         }
 
         public async void RejectUser()
@@ -190,7 +251,7 @@ namespace TinderApp.Views
 
             //TODO - DESABILITEI
             //await Client.Get("pass/" + _currentRec.Id);
-            NextRecommendation();
+            NextJobSuggestion();
         }
 
         private void RaiseAnimation(string animation)

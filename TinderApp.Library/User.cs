@@ -4,6 +4,7 @@ namespace TinderApp.Lib
 {
     public class User
     {
+     
         [JsonProperty("active_time")]
         public string ActiveTime { get; set; }
 

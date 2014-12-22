@@ -15,6 +15,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using TinderApp.Library.Facebook;
 using TinderApp.Library.Linkedin;
+using System.IO;
 
 namespace TinderApp.Library
 {
@@ -156,6 +157,10 @@ namespace TinderApp.Library
             // Get recommended jobs
             
             string _requestJobsUrl = "http://api.linkedin.com/v1/people/~/suggestions/job-suggestions";
+            
+            //string _requestJobsUrl = "http://api.linkedin.com/v1/people/~/suggestions/job-suggestions:(jobs:(position:(title)))";
+            //string _requestJobsUrl = "http://api.linkedin.com/v1/jobs/1452577:(id,company:(name),position:(title)) ";
+
             string _linkedInJobSuggestions = "";
 
             OAuthUtil oAuthUtil = new OAuthUtil();
@@ -218,7 +223,14 @@ namespace TinderApp.Library
                 //  </site-standard-profile-request>
                 //</person>
 
+                // MOCKUP
+                var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+                var file = await folder.GetFileAsync("jobs.json");
 
+                using (StreamReader sRead = new StreamReader(await file.OpenStreamForReadAsync()))
+                    _linkedInJobSuggestions = await sRead.ReadToEndAsync();
+
+                
                 LinkedinJobList linkedinJobList = JsonConvert.DeserializeObject<LinkedinJobList>(_linkedInJobSuggestions);
                 
                 foreach (var item in linkedinJobList.Jobs.Values)

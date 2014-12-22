@@ -7,5 +7,7 @@ namespace TinderApp.Library
         public String LinkedInID { get; set; }
 
         public String AcessToken { get; set; }
+
+        public Linkedin.LinkedinUser LinkedinUser { get; set; }
     }
 }

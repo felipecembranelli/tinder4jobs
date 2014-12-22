@@ -15,11 +15,14 @@ using System.Text;
 using Windows.Web.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using TinderApp.Library.Linkedin;
 
 namespace TinderApp
 {
     public partial class InitialPage : PhoneApplicationPage
     {
+        private TinderApp.Library.Linkedin.LinkedinUser _LoggedUser;
+
         string _consumerKey = "772jmojzy2vnra";
         string _consumerSecretKey = "hQu5DFEqP5JQyPGr";
         string _linkedInRequestTokenUrl = "https://api.linkedin.com/uas/oauth/requestToken";
@@ -176,7 +179,6 @@ namespace TinderApp
 
             var linkedinUser = JsonConvert.DeserializeObject<LinkedinUser>(_linkedInProfile);
 
-
             // FIM
 
             //ProfilePhoto.Background = new ImageBrush() { ImageSource = new BitmapImage(new Uri(String.Format("https://graph.facebook.com/me/picture?access_token={0}&height=100&width=100", accessToken))) };
@@ -184,6 +186,7 @@ namespace TinderApp
             LinkedInSessionInfo sessionInfo = new LinkedInSessionInfo();
             sessionInfo.AcessToken = accessToken;
             sessionInfo.LinkedInID = linkedinUser.FirstName;
+            sessionInfo.LinkedinUser = linkedinUser;
 
             //Geolocator location = new Geolocator();
             //location.DesiredAccuracy = PositionAccuracy.Default;
