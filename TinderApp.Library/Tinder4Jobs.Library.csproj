@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Sqlite-Winrt.3.8.7.1\build\wp8\Sqlite-Winrt.props" Condition="Exists('..\packages\Sqlite-Winrt.3.8.7.1\build\wp8\Sqlite-Winrt.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -23,6 +24,7 @@
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
     <DefaultLanguage>en-US</DefaultLanguage>
+    <NuGetPackageImportStamp>87e068e7</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,6 +78,10 @@
     <Compile Include="ConsentManager.cs" />
     <Compile Include="Controls\CustomPhoneApplicationFrame.cs" />
     <Compile Include="Controls\IApp.cs" />
+    <Compile Include="DbHelper\DatabaseLinkedinJobHelperClass.cs" />
+    <Compile Include="DbHelper\LinkedinJobDataMapper.cs" />
+    <Compile Include="DbHelper\SQLite.cs" />
+    <Compile Include="DbHelper\SQLiteAsync.cs" />
     <Compile Include="Facebook\FacebookClient.cs" />
     <Compile Include="AuthRequest.cs" />
     <Compile Include="AuthResponse.cs" />
@@ -153,6 +159,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.1-beta1\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SQLiteWinRT">
+      <HintPath>..\packages\Sqlite-Winrt.3.8.7.1\lib\wp81\SQLiteWinRT.winmd</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\portable-net40+sl4+win8+wp71\System.Net.Http.dll</HintPath>
     </Reference>
@@ -178,6 +187,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.WP80, Version=3.8.7.4">
+      <Name>SQLite for Windows Phone</Name>
+    </SDKReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />
@@ -187,6 +201,14 @@
     <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Sqlite-Winrt.3.8.7.1\build\wp8\Sqlite-Winrt.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Sqlite-Winrt.3.8.7.1\build\wp8\Sqlite-Winrt.props'))" />
+    <Error Condition="!Exists('..\packages\Sqlite-Winrt.3.8.7.1\build\wp8\Sqlite-Winrt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Sqlite-Winrt.3.8.7.1\build\wp8\Sqlite-Winrt.targets'))" />
+  </Target>
+  <Import Project="..\packages\Sqlite-Winrt.3.8.7.1\build\wp8\Sqlite-Winrt.targets" Condition="Exists('..\packages\Sqlite-Winrt.3.8.7.1\build\wp8\Sqlite-Winrt.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
