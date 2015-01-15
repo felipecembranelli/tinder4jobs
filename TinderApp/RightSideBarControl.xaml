@@ -95,13 +95,13 @@
                            Style="{StaticResource PhoneTextTitle3Style}"
                            Text="All Matches"
                            TextWrapping="Wrap" />
-                <telerikPrimitives:RadDataBoundListBox Grid.Row="2"
+                <!--<telerikPrimitives:RadDataBoundListBox Grid.Row="2"
                                                        HorizontalAlignment="Left"
                                                        EmptyContent="No matches yet!"
                                                        Foreground="#DEFFFFFF"
                                                        ItemTap="RadDataBoundListBox_ItemTap"
                                                        ItemTemplate="{StaticResource MatchItemTemplate}"
-                                                       ItemsSource="{Binding Matches}" />
+                                                       ItemsSource="{Binding Matches}" />-->
             </Grid>
         </Border>
     </Grid>

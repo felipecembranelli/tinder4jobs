@@ -104,9 +104,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConversationPage.xaml.cs">
-      <DependentUpon>ConversationPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="EditProfile.xaml.cs">
       <DependentUpon>EditProfile.xaml</DependentUpon>
     </Compile>
@@ -126,19 +123,12 @@
     <Compile Include="RightSideBarControl.xaml.cs">
       <DependentUpon>RightSideBarControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="ConversationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="EditProfile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,10 +152,6 @@
     <Page Include="RightSideBarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -267,15 +253,6 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.2.18\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Behaviors, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Controls.Chart, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Controls.Data, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Controls.DataVisualization, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Controls.ImageEditor, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Controls.Input, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Controls.Primitives, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Core, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Data, Version=2014.3.1021.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
     <Reference Include="Zlib.Portable">
       <HintPath>..\packages\Zlib.Portable.1.9.2\lib\portable-net4+sl4+wp71+win8\Zlib.Portable.dll</HintPath>
     </Reference>

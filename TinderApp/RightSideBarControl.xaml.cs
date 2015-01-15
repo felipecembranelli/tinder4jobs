@@ -17,13 +17,13 @@ namespace TinderApp
                 (App.Current as App).RightSideBar = this;
         }
 
-        private void RadDataBoundListBox_ItemTap(object sender, Telerik.Windows.Controls.ListBoxItemTapEventArgs e)
-        {
-            MatchViewModel vm = (e.Item.AssociatedDataItem as Telerik.Windows.Data.IDataSourceItem).Value as MatchViewModel;
+        //private void RadDataBoundListBox_ItemTap(object sender, Telerik.Windows.Controls.ListBoxItemTapEventArgs e)
+        //{
+        //    MatchViewModel vm = (e.Item.AssociatedDataItem as Telerik.Windows.Data.IDataSourceItem).Value as MatchViewModel;
 
-            VisualStateManager.GoToState(Application.Current.RootVisual as PhoneApplicationFrame, "Default", false);
+        //    VisualStateManager.GoToState(Application.Current.RootVisual as PhoneApplicationFrame, "Default", false);
 
-            (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/ConversationPage.xaml?id=" + vm.Data.Id, UriKind.Relative));
-        }
+        //    (Application.Current.RootVisual as PhoneApplicationFrame).Navigate(new Uri("/ConversationPage.xaml?id=" + vm.Data.Id, UriKind.Relative));
+        //}
     }
 }

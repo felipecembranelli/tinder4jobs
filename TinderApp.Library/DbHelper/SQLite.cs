@@ -999,7 +999,7 @@ namespace SQLite
 #elif SILVERLIGHT
 						_transactionDepth = depth;
 #else
-                        Thread.VolatileWrite (ref _transactionDepth, depth);
+                        System.Threading.Volatile.Write (ref _transactionDepth, depth);
 #endif
                         Execute (cmd + savepoint);
 						return;

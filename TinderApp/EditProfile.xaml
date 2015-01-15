@@ -233,7 +233,7 @@
             </Button>
         </Grid>
 
-        <telerikPrimitives:RadTextBox Grid.Row="2"
+        <!--<telerikPrimitives:RadTextBox Grid.Row="2"
                                       Height="163"
                                       Margin="0,24,0,0"
                                       VerticalAlignment="Top"
@@ -243,6 +243,6 @@
                                       Text="{Binding bio,
                                                      Mode=TwoWay}"
                                       TextWrapping="Wrap"
-                                      Watermark="Enter something about yourself..." />
+                                      Watermark="Enter something about yourself..." />-->
     </Grid>
 </phone:PhoneApplicationPage>

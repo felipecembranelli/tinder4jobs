@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Telerik.Windows.Controls;
+//using Telerik.Windows.Controls;
 using TinderApp.Views.ViewModels.Conversation;
 
 namespace TinderApp.Library.ViewModels.Conversation
